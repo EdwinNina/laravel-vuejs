@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/api/conversaciones', 'ConversationController@index');
+Route::get('/api/mensajes', 'MessageController@index');
+Route::post('/api/mensajes', 'MessageController@store');

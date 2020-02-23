@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html class="h-100">
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -19,11 +19,11 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
-    <div id="app">
+<body class="h-100">
+    <div id="app" class="h-100">
         <b-navbar toggleable="lg" type="dark" variant="primary">
             <b-container>
-                <b-navbar-brand href="#">Laravel</b-navbar-brand>
+                <b-navbar-brand href="#">Messenger</b-navbar-brand>
             
                 <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             
@@ -48,7 +48,7 @@
                 </b-collapse>
             </b-container>
         </b-navbar>
-        <main class="py-4">
+        <main>
             @yield('content')
         </main>
     </div>
