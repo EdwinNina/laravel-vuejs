@@ -7,6 +7,7 @@ import {BootstrapVue, IconsPlugin} from 'bootstrap-vue';
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
+Vue.component('messenger-component', require('./components/Messenger.vue').default);
 Vue.component('contacto-component', require('./components/Contacto.vue').default);
 Vue.component('lista-contactos-component', require('./components/ListaContactos.vue').default);
 Vue.component('conversacion-activa-component', require('./components/ConversacionActiva.vue').default);

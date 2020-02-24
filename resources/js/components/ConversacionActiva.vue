@@ -18,9 +18,9 @@
                 </b-input-group>
             </div>
         </b-col>
-        <b-col cols="4" class="text-center">
+        <b-col cols="4" class="mt-5 text-center">
             <b-img rounded="circle" blank with="60" height="60" blank-color="#777" class="m-1" />
-            <p>Usuario seleccionado</p>
+            <p>{{ contacto.contact_name }}</p>
             <hr>
             <b-form-checkbox>Desactivar notificaciones</b-form-checkbox>
         </b-col>
@@ -29,29 +29,37 @@
 
 <script>
     export default {
-        mounted () {
+        mounted(){
             this.obtenerMensajes();
-        },  
+        },
+        props: {
+            contacto: Object
+        },
         data() {
             return {
                 mensajes: [],
-                contenido: ''
+                contenido: '',
             }
         },
         methods: {
             async obtenerMensajes() {
-                const response = await axios.get('api/mensajes')
+                const response = await axios.get(`api/mensajes?contact_id=${this.contacto.contact_id}`)
                 this.mensajes = response.data;
             },
             async enviarMensaje(){
                 const response = await axios.post('api/mensajes',{
-                    'to_id' : 2,
+                    'to_id' : this.contacto.contact_id,
                     'content' : this.contenido
                 });
                 if(response.data.success){
                     this.contenido = '';
                     this.obtenerMensajes();
                 }
+            }
+        },
+        watch: {
+            contacto(value) {
+                this.obtenerMensajes();
             }
         },      
     }

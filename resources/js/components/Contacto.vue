@@ -5,11 +5,11 @@
                 <b-img rounded="circle" blank with="60" height="60" blank-color="#777" class="m-1" />
             </b-col>
             <b-col cols="7" align-self="center" class="d-none d-md-block">
-                <p class="mb-0">{{ nombre }}</p>
-                <span class="text-muted small">{{ ultimoMensaje }}</span>
+                <p class="mb-0">{{ conversacion.contact_name }}</p>
+                <span class="text-muted small">{{ conversacion.last_message }}</span>
             </b-col>
             <b-col cols="2" align-self="center" class="d-none d-md-block">
-                <span class="text-muted small">{{ ultimaVez }}</span>
+                <span class="text-muted small">{{ conversacion.last_time }}</span>
             </b-col>
         </b-row>
     </b-list-group-item>
@@ -17,13 +17,12 @@
 
 <script>
     export default {
-        props: ['variant'] ,
+        props: {
+            variant: String,
+            conversacion: Object
+        },
         data() {
-            return {
-                nombre: 'Edwin Nina',
-                ultimoMensaje: 'Tu: Hasta mañana',
-                ultimaVez: '1:37 pm',
-            }
+            return {}
         },
     }
 </script>

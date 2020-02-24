@@ -9,12 +9,20 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $userId = Auth::id();
-        return Message::select('id',
-            DB::raw("IF(`from_id`= $userId, TRUE, FALSE) as written_by_me"),'content','created_at')
-            ->get();
+        $contactId = $request->contact_id;
+
+        return Message::select(
+            'id',
+            DB::raw("IF(`from_id`= $userId, TRUE, FALSE) as written_by_me"),
+            'content','created_at'
+            )->where(function ($query) use($userId, $contactId){
+                $query->where('from_id',$userId)->where('to_id', $contactId);
+            })->orWhere(function ($query) use($userId, $contactId){
+                $query->where('from_id',$contactId)->where('to_id', $userId);
+            })->get();
     }
     public function store(Request $request)
     {
