@@ -16,6 +16,12 @@
 <script>
     export default {
         mounted () {
+            Echo.channel('example')
+                .listen('MessageSent', (data) => {
+                    const mensaje = data.message;
+                    this.conversaciones.last_message = mensaje.last_message; 
+                    this.conversaciones.last_time = mensaje.last_time;
+                });
             this.obtenerConversaciones();
         },
         data() {

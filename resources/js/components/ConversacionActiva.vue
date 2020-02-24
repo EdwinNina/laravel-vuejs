@@ -1,12 +1,13 @@
 <template>
     <b-row class="h-100">
         <b-col cols="8" class="h-100">
-            <b-card class="h-100" title="Conversacion activa" footer-border-variant="dark" footer-bg-variant="info">
-                <mensaje-component v-for="mensaje in mensajes" :key="mensaje.id"
-                    :written-by-me="mensaje.written_by_me"
-                >
-                    {{mensaje.content}}
-                </mensaje-component>
+            <b-card no-body class="h-100" title="Conversacion activa" footer-border-variant="dark" footer-bg-variant="info">
+                <b-card-body class="mensajes-contenedor">
+                    <mensaje-component v-for="mensaje in mensajes" :key="mensaje.id"
+                        :written-by-me="mensaje.written_by_me">
+                        {{mensaje.content}}
+                    </mensaje-component>
+                </b-card-body>
             </b-card>
             <div slot="footer">
                 <b-input-group>
@@ -29,23 +30,16 @@
 
 <script>
     export default {
-        mounted(){
-            this.obtenerMensajes();
-        },
         props: {
-            contacto: Object
+            contacto: Object,
+            mensajes: Array
         },
         data() {
             return {
-                mensajes: [],
                 contenido: '',
             }
         },
         methods: {
-            async obtenerMensajes() {
-                const response = await axios.get(`api/mensajes?contact_id=${this.contacto.contact_id}`)
-                this.mensajes = response.data;
-            },
             async enviarMensaje(){
                 const response = await axios.post('api/mensajes',{
                     'to_id' : this.contacto.contact_id,
@@ -53,14 +47,21 @@
                 });
                 if(response.data.success){
                     this.contenido = '';
-                    this.obtenerMensajes();
                 }
+            },
+            scrollAbajoMensaje(){
+                const el = document.querySelector('.mensajes-contenedor');
+                el.scrollTop = el.scrollHeight;
             }
         },
-        watch: {
-            contacto(value) {
-                this.obtenerMensajes();
-            }
-        },      
+        updated () {
+            this.scrollAbajoMensaje();
+        },
     }
 </script>
+<style>
+    .mensajes-contenedor{
+        max-height: calc(100% - 37px);
+        overflow-y: auto;
+    }
+</style>
